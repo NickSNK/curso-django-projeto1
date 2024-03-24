@@ -1,8 +1,9 @@
 {% extends "global/template.html" %}
+{% load static %}
 
 {% block head %}
 
-{% include "recipes/partials/head.html" %}
+<link rel="stylesheet" href="{% static 'recipes/css/style.css' %}">
 <title>Recipes</title>
 
 {% endblock head %}
