@@ -6,14 +6,14 @@ from .models import Recipe
 
 # Create your views here.
 def home(request):
-    recipes = Recipe.objects.all().order_by('-id')
+    recipes = Recipe.objects.filter(is_published=True).order_by('-id')
     context = {
         'recipes': recipes,
     }
     return render(request, 'recipes/pages/home.html', context)
 
 def category(request, id):
-    recipes = Recipe.objects.filter(category__id=id).order_by('-id')
+    recipes = Recipe.objects.filter(category__id=id, is_published=True).order_by('-id')
     context = {
         'recipes': recipes,
     }
