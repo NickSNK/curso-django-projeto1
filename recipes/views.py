@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse
 
 from utils.recipes.factory import make_recipe
@@ -13,16 +13,18 @@ def home(request):
     return render(request, 'recipes/pages/home.html', context)
 
 def category(request, id):
-    recipes = Recipe.objects.filter(category__id=id, is_published=True).order_by('-id')
+    recipes = get_list_or_404(Recipe.objects.filter(category__id=id, is_published=True).order_by('-id'))
     context = {
         'recipes': recipes,
+        'title': f'{recipes[0].category.name}',
     }
-    return render(request, 'recipes/pages/home.html', context)
+    return render(request, 'recipes/pages/category.html', context)
 
 def recipe(request, id):
     recipes = Recipe.objects.get(id=id)
     context = {
         'recipe': recipes,
         'is_detail_page': True,
+        'title': f'{recipes.title}'
     }
     return render(request, 'recipes/pages/recipe.html', context)
