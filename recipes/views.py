@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_list_or_404
+from django.shortcuts import render, get_list_or_404, get_object_or_404
 from django.http import HttpResponse
 
 from utils.recipes.factory import make_recipe
@@ -21,7 +21,7 @@ def category(request, id):
     return render(request, 'recipes/pages/category.html', context)
 
 def recipe(request, id):
-    recipes = Recipe.objects.get(id=id)
+    recipes = get_object_or_404(Recipe.objects.filter(id=id, is_published=True))
     context = {
         'title': f'{recipes.title}',
         'recipe': recipes,
